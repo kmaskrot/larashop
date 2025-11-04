@@ -2,15 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
+    use HasSlug;
     /**
      * The current password being used by the factory.
      */
@@ -24,8 +27,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'uuid' => fake()->uuid(),
+            'firstname' => fake()->firstName(),
+            'lastname' => fake()->lastName(),
+            'date_of_birth' => fake()->dateTime(),
+            'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
+            'newsletter' => fake()->boolean(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
